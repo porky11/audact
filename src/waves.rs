@@ -1,6 +1,23 @@
 use rand::random;
 
-use crate::system::Wave;
+/// Trait to represent possible wave functions
+pub trait Wave {
+    /// Calculates the wave
+    fn calculate(&self, t: f32) -> f32;
+}
+
+impl Wave for fn(f32) -> f32 {
+    fn calculate(&self, t: f32) -> f32 {
+        self(t)
+    }
+}
+
+impl Wave for f32 {
+    #[inline(always)]
+    fn calculate(&self, _t: f32) -> f32 {
+        *self
+    }
+}
 
 /// A simple sine wave.
 pub struct SineWave;
