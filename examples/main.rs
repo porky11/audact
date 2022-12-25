@@ -1,8 +1,8 @@
-extern crate audact;
-
-use audact::notes::std_note_freq;
-use audact::system::{Audact, Processing, ProcessingBuilder};
-use audact::waves::{noise_wave, saw_wave, sine_wave, square_wave};
+use audact::{
+    notes::std_note_freq,
+    system::{Audact, Processing, ProcessingBuilder},
+    waves::{noise_wave, saw_wave, sine_wave, square_wave},
+};
 
 use std::time::Duration;
 

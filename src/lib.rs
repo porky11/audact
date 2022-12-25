@@ -11,8 +11,11 @@ Usage:
 ```no_run
 extern crate audact;
 
-use audact::notes::std_note_freq;
-use audact::system::{Audact, Processing, Wave};
+use audact::{
+    notes::std_note_freq,
+    system::{Audact, Processing},
+    waves::sine_wave,
+};
 
 fn main() {
     let mut audact = Audact::new(16, 120, 4f32);
@@ -22,7 +25,7 @@ fn main() {
     let n_2 = std_note_freq(2);
 
     audact.channel(
-        Wave::Sine,
+        sine_wave,
         1f32,
         default_processing,
         vec![
@@ -49,8 +52,6 @@ fn main() {
 
 #![deny(missing_docs)]
 
-extern crate rand;
-extern crate rodio;
 #[macro_use]
 extern crate derive_builder;
 

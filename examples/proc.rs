@@ -1,12 +1,11 @@
-extern crate audact;
-extern crate rand;
-
-use audact::notes::std_note_freq;
-use audact::system::{Audact, ProcessingBuilder};
-use audact::waves::sine_wave;
+use audact::{
+    notes::std_note_freq,
+    system::{Audact, ProcessingBuilder},
+    waves::sine_wave,
+};
 use rand::Rng;
-use std::iter;
-use std::time::Duration;
+
+use std::{iter, time::Duration};
 
 fn main() {
     let seq_len = 16;

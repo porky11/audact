@@ -1,13 +1,6 @@
-use rodio;
-use rodio::buffer::SamplesBuffer;
-use rodio::source;
-use rodio::OutputStream;
-use rodio::OutputStreamHandle;
-use rodio::Sink;
-use rodio::Source;
+use rodio::{buffer::SamplesBuffer, source, OutputStream, OutputStreamHandle, Sink, Source};
 
-use std::f32::consts::PI;
-use std::time::Duration;
+use std::{f32::consts::PI, time::Duration};
 
 /// Struct for the main audact system
 pub struct Audact {

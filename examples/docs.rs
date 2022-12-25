@@ -1,8 +1,8 @@
-extern crate audact;
-
-use audact::notes::std_note_freq;
-use audact::system::{Audact, Processing};
-use audact::waves::{sine_wave, square_wave};
+use audact::{
+    notes::std_note_freq,
+    system::{Audact, Processing},
+    waves::{sine_wave, square_wave},
+};
 
 fn main() {
     let mut audact = Audact::new(16, 120, 4f32);
