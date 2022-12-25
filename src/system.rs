@@ -90,7 +90,7 @@ impl Audact {
     fn smooth_source(source: &mut Vec<f32>) {
         // Get rid of clicks by interpolating vol changes
         // probably smarter ways of doing this
-        fn smooth(source: &mut Vec<f32>) {
+        fn smooth(source: &mut [f32]) {
             let mut prev_sample = 0f32;
             for s in source.iter_mut() {
                 if *s == 0f32 {
