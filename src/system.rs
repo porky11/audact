@@ -1,6 +1,6 @@
 use rodio::{buffer::SamplesBuffer, source, OutputStream, OutputStreamHandle, Sink, Source};
 
-use std::{f32::consts::PI, time::Duration};
+use std::time::Duration;
 
 /// Struct for the main audact system
 pub struct Audact {
@@ -122,14 +122,15 @@ impl Audact {
         // Create the basic waveform samples
         let mut source: Vec<f32> = (0u64..self.total_samples_needed as u64)
             .map(move |t| {
+                let t = t as f32;
                 // Silence if not playing in this step
-                let s_t = total_samples_needed / t as f32;
+                let s_t = total_samples_needed / t;
                 let freq = seq[(steps / s_t).floor() as usize];
                 if freq == 0f32 {
                     return 0f32;
                 }
                 // Calc the freq for the wave
-                let freq = t as f32 * freq * PI / sample_rate;
+                let freq = t * freq / sample_rate;
                 // Call the wave gen fn
                 wave(freq)
             })
