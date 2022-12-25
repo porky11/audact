@@ -1,7 +1,7 @@
 use audact::{
     notes::std_note_freq,
     system::{Audact, ProcessingBuilder},
-    waves::sine_wave,
+    waves::SineWave,
 };
 use rand::Rng;
 
@@ -25,7 +25,7 @@ fn main() {
         .unwrap();
 
     // single test tone
-    audact.channel(sine_wave, 0.3f32, processing, seq);
+    audact.channel(SineWave, 0.3f32, processing, seq);
 
     audact.start(4);
 }

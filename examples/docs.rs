@@ -1,7 +1,7 @@
 use audact::{
     notes::std_note_freq,
     system::{Audact, Processing},
-    waves::{sine_wave, square_wave},
+    waves::{SineWave, SquareWave},
 };
 
 fn main() {
@@ -12,7 +12,7 @@ fn main() {
     let n_2 = std_note_freq(2);
 
     audact.channel(
-        sine_wave,
+        SineWave,
         1f32,
         default_processing,
         vec![
@@ -21,7 +21,7 @@ fn main() {
         ],
     );
     audact.channel(
-        square_wave,
+        SquareWave,
         1f32,
         default_processing,
         vec![

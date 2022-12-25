@@ -1,7 +1,7 @@
 use audact::{
     notes::std_note_freq,
     system::{Audact, Processing},
-    waves::sine_wave,
+    waves::SineWave,
 };
 
 fn main() {
@@ -11,7 +11,7 @@ fn main() {
 
     // single test tone
     audact.channel(
-        sine_wave,
+        SineWave,
         0.7f32,
         Processing::default(),
         vec![c, c, c, c, c, c, c, c, c, c, c, c, c, c, c, c],

@@ -2,6 +2,25 @@ use rodio::{buffer::SamplesBuffer, source, OutputStream, OutputStreamHandle, Sin
 
 use std::time::Duration;
 
+/// Trait to represent possible wave functions
+pub trait Wave {
+    /// Calculates the wave
+    fn calculate(&self, t: f32) -> f32;
+}
+
+impl Wave for fn(f32) -> f32 {
+    fn calculate(&self, t: f32) -> f32 {
+        self(t)
+    }
+}
+
+impl Wave for f32 {
+    #[inline(always)]
+    fn calculate(&self, _t: f32) -> f32 {
+        *self
+    }
+}
+
 /// Struct for the main audact system
 pub struct Audact {
     /// The output stream that will actually be played through
@@ -103,13 +122,7 @@ impl Audact {
     }
 
     /// Add a voice channel to audact for synth playback
-    pub fn channel(
-        &mut self,
-        wave: impl Fn(f32) -> f32,
-        volume: f32,
-        processing: Processing,
-        seq: Vec<f32>,
-    ) {
+    pub fn channel(&mut self, wave: impl Wave, volume: f32, processing: Processing, seq: Vec<f32>) {
         // create the sink to play from
         let sink = Sink::try_new(&self.output_stream_handle).unwrap();
         sink.pause();
@@ -132,7 +145,7 @@ impl Audact {
                 // Calc the freq for the wave
                 let freq = t * freq / sample_rate;
                 // Call the wave gen fn
-                wave(freq)
+                wave.calculate(freq)
             })
             .collect();
 

@@ -1,7 +1,7 @@
 use audact::{
     notes::std_note_freq,
     system::{Audact, Processing, ProcessingBuilder},
-    waves::{noise_wave, saw_wave, sine_wave, square_wave},
+    waves::{NoiseWave, SawWave, SineWave, SquareWave},
 };
 
 use std::time::Duration;
@@ -22,7 +22,7 @@ fn main() {
     let l_2 = std_note_freq(-2);
     let l_3 = std_note_freq(-4);
     audact.channel(
-        saw_wave,
+        SawWave,
         0.1f32,
         lead_processing,
         vec![
@@ -35,7 +35,7 @@ fn main() {
     let p_2 = std_note_freq(-14);
     let p_3 = std_note_freq(-16);
     audact.channel(
-        square_wave,
+        SquareWave,
         0.1f32,
         default_processing,
         vec![
@@ -47,7 +47,7 @@ fn main() {
     let b_2 = std_note_freq(-26);
     //bass
     audact.channel(
-        sine_wave,
+        SineWave,
         0.1f32,
         default_processing,
         vec![
@@ -57,7 +57,7 @@ fn main() {
 
     // percussion
     audact.channel(
-        noise_wave,
+        NoiseWave,
         0.2f32,
         default_processing,
         vec![

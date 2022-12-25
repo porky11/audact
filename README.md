@@ -16,7 +16,7 @@ Usage:
 use audact::{
     notes::std_note_freq,
     system::{Audact, Processing},
-    waves::{sine_wave, square_wave},
+    waves::{SineWave, SquareWave},
 };
 
 fn main() {
@@ -27,7 +27,7 @@ fn main() {
     let n_2 = std_note_freq(2);
 
     audact.channel(
-        sine_wave,
+        SineWave,
         1f32,
         default_processing,
         vec![
@@ -37,7 +37,7 @@ fn main() {
             n_1, 0f32, 0f32, 0f32,
         ],
     );
-    audact.channel(square_wave, 1f32, default_processing,
+    audact.channel(SquareWave, 1f32, default_processing,
         vec![
             0f32, 0f32, n_2, 0f32,
             0f32, 0f32, n_2, 0f32,
