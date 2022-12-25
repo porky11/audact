@@ -1,7 +1,8 @@
 extern crate audact;
 
 use audact::notes::std_note_freq;
-use audact::system::{Audact, Processing, Wave};
+use audact::system::{Audact, Processing};
+use audact::waves::{sine_wave, square_wave};
 
 fn main() {
     let mut audact = Audact::new(16, 120, 4f32);
@@ -11,7 +12,7 @@ fn main() {
     let n_2 = std_note_freq(2);
 
     audact.channel(
-        Wave::Sine,
+        sine_wave,
         1f32,
         default_processing,
         vec![
@@ -20,7 +21,7 @@ fn main() {
         ],
     );
     audact.channel(
-        Wave::Square,
+        square_wave,
         1f32,
         default_processing,
         vec![

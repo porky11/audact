@@ -1,7 +1,8 @@
 extern crate audact;
 
 use audact::notes::std_note_freq;
-use audact::system::{Audact, Processing, ProcessingBuilder, Wave};
+use audact::system::{Audact, Processing, ProcessingBuilder};
+use audact::waves::{noise_wave, saw_wave, sine_wave, square_wave};
 
 use std::time::Duration;
 
@@ -21,7 +22,7 @@ fn main() {
     let l_2 = std_note_freq(-2);
     let l_3 = std_note_freq(-4);
     audact.channel(
-        Wave::Saw,
+        saw_wave,
         0.1f32,
         lead_processing,
         vec![
@@ -34,7 +35,7 @@ fn main() {
     let p_2 = std_note_freq(-14);
     let p_3 = std_note_freq(-16);
     audact.channel(
-        Wave::Square,
+        square_wave,
         0.1f32,
         default_processing,
         vec![
@@ -46,7 +47,7 @@ fn main() {
     let b_2 = std_note_freq(-26);
     //bass
     audact.channel(
-        Wave::Sine,
+        sine_wave,
         0.1f32,
         default_processing,
         vec![
@@ -56,7 +57,7 @@ fn main() {
 
     // percussion
     audact.channel(
-        Wave::Noise,
+        noise_wave,
         0.2f32,
         default_processing,
         vec![

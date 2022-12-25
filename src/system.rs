@@ -9,20 +9,6 @@ use rodio::Source;
 use std::f32::consts::PI;
 use std::time::Duration;
 
-use rand::random;
-
-/// Enum of available waveforms
-pub enum Wave {
-    /// Sine waveform
-    Sine,
-    /// Square waveform
-    Square,
-    /// Saw-tooth waveform
-    Saw,
-    /// White noise waveform
-    Noise,
-}
-
 /// Struct for the main audact system
 pub struct Audact {
     /// The output stream that will actually be played through
@@ -100,26 +86,6 @@ impl Audact {
         }
     }
 
-    /// Generates a sine wave from samples
-    fn sine_wave(t: f32) -> f32 {
-        t.sin()
-    }
-
-    /// Generates a square wave from samples
-    fn square_wave(t: f32) -> f32 {
-        t.sin().round()
-    }
-
-    /// Generates a saw-tooth wave from samples
-    fn saw_wave(t: f32) -> f32 {
-        t - t.floor()
-    }
-
-    /// Generates white noise from samples
-    fn noise_wave(_: f32) -> f32 {
-        (random::<f32>() * 2f32) - 1f32
-    }
-
     /// Smooth out the generated source
     fn smooth_source(source: &mut Vec<f32>) {
         // Get rid of clicks by interpolating vol changes
@@ -144,7 +110,13 @@ impl Audact {
     }
 
     /// Add a voice channel to audact for synth playback
-    pub fn channel(&mut self, wave: Wave, volume: f32, processing: Processing, seq: Vec<f32>) {
+    pub fn channel(
+        &mut self,
+        wave: impl Fn(f32) -> f32,
+        volume: f32,
+        processing: Processing,
+        seq: Vec<f32>,
+    ) {
         // create the sink to play from
         let sink = Sink::try_new(&self.output_stream_handle).unwrap();
         sink.pause();
@@ -166,12 +138,7 @@ impl Audact {
                 // Calc the freq for the wave
                 let freq = t as f32 * freq * PI / sample_rate;
                 // Call the wave gen fn
-                match wave {
-                    Wave::Sine => Audact::sine_wave(freq),
-                    Wave::Square => Audact::square_wave(freq),
-                    Wave::Saw => Audact::saw_wave(freq),
-                    Wave::Noise => Audact::noise_wave(freq),
-                }
+                wave(freq)
             })
             .collect();
 

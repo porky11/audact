@@ -58,3 +58,5 @@ extern crate derive_builder;
 pub mod notes;
 /// Module for the main audact system
 pub mod system;
+/// Module containing some common wave types
+pub mod waves;

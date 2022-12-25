@@ -2,7 +2,8 @@ extern crate audact;
 extern crate rand;
 
 use audact::notes::std_note_freq;
-use audact::system::{Audact, ProcessingBuilder, Wave};
+use audact::system::{Audact, ProcessingBuilder};
+use audact::waves::sine_wave;
 use rand::Rng;
 use std::iter;
 use std::time::Duration;
@@ -25,7 +26,7 @@ fn main() {
         .unwrap();
 
     // single test tone
-    audact.channel(Wave::Sine, 0.3f32, processing, seq);
+    audact.channel(sine_wave, 0.3f32, processing, seq);
 
     audact.start(4);
 }
