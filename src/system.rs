@@ -102,15 +102,21 @@ impl Audact {
     }
 
     /// Add a voice channel to audact for synth playback
-    pub fn channel(&mut self, wave: impl Wave, volume: f32, processing: Processing, seq: Vec<f32>) {
+    pub fn channel(
+        &mut self,
+        wave: impl Wave,
+        volume: impl Wave,
+        processing: Processing,
+        seq: Vec<f32>,
+    ) {
         // create the sink to play from
         let sink = Sink::try_new(&self.output_stream_handle).unwrap();
         sink.pause();
-        sink.set_volume(volume);
 
         let sample_rate = self.sample_rate as f32;
         let steps = seq.len() as f32;
-        let total_samples_needed = self.samples_needed * steps as f32;
+        let samples_needed = self.samples_needed;
+        let total_samples_needed = samples_needed * steps as f32;
 
         // Create the basic waveform samples
         let mut source: Vec<f32> = (0u64..total_samples_needed as u64)
@@ -122,10 +128,13 @@ impl Audact {
                 if freq == 0f32 {
                     return 0f32;
                 }
+
+                let n_t = t / (samples_needed - 1.0);
+
                 // Calc the freq for the wave
                 let freq = t * freq / sample_rate;
                 // Call the wave gen fn
-                wave.calculate(freq) * 2.0 - 1.0
+                (wave.calculate(freq) * 2.0 - 1.0) * volume.calculate(n_t)
             })
             .collect();
 
