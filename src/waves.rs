@@ -157,6 +157,6 @@ pub struct FlipWave<W: Wave>(W);
 
 impl<W: Wave> Wave for FlipWave<W> {
     fn calculate(&self, t: f32) -> f32 {
-        -self.0.calculate(1.0 - t)
+        1.0 - self.0.calculate(t)
     }
 }
