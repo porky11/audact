@@ -1,32 +1,47 @@
 use rand::random;
 
 /// Trait to represent possible wave functions
-pub trait Wave: Sized {
+pub trait Wave {
     /// Calculates the wave
     fn calculate(&self, t: f32) -> f32;
 
     /// Mix waves using a specified ratio.
-    fn mix<A: Wave, B: Wave>(self, a: A, b: B) -> MixWave<A, B, Self> {
+    fn mix<A: Wave, B: Wave>(self, a: A, b: B) -> MixWave<A, B, Self>
+    where
+        Self: Sized,
+    {
         MixWave { a, b, ratio: self }
     }
 
     /// Add waves.
-    fn add<W: Wave>(self, other: W) -> AddWave<Self, W> {
+    fn add<W: Wave>(self, other: W) -> AddWave<Self, W>
+    where
+        Self: Sized,
+    {
         AddWave { a: self, b: other }
     }
 
     /// Multiply waves.
-    fn multiply<W: Wave>(self, other: W) -> MultiplyWave<Self, W> {
+    fn multiply<W: Wave>(self, other: W) -> MultiplyWave<Self, W>
+    where
+        Self: Sized,
+    {
         MultiplyWave { a: self, b: other }
     }
 
     /// Reverse the wave.
-    fn reverse(self) -> ReverseWave<Self> {
+    fn reverse(self) -> ReverseWave<Self>
+    where
+        Self: Sized,
+    {
         ReverseWave(self)
     }
 
     /// Flip the wave.
-    fn flip(self) -> FlipWave<Self> {
+    fn flip(self) -> FlipWave<Self>
+    where
+        Self: Sized,
+    {
         FlipWave(self)
     }
 }
