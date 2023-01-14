@@ -60,11 +60,12 @@ impl Wave for f32 {
 }
 
 /// A simple sine wave.
-pub struct SineWave;
+#[derive(Default)]
+pub struct SineWave(pub f32);
 
 impl Wave for SineWave {
     fn calculate(&self, t: f32) -> f32 {
-        ((t * std::f32::consts::PI * 2.0).sin() + 1.0) / 2.0
+        ((t * 2.0f32.powf(self.0) * std::f32::consts::PI * 2.0).sin() + 1.0) / 2.0
     }
 }
 
@@ -75,11 +76,12 @@ impl Wave for &dyn Wave {
 }
 
 /// A simple square wave.
-pub struct SquareWave;
+#[derive(Default)]
+pub struct SquareWave(pub f32);
 
 impl Wave for SquareWave {
     fn calculate(&self, t: f32) -> f32 {
-        if t % 1.0 < 0.5 {
+        if (t * 2.0f32.powf(self.0)) % 1.0 < 0.5 {
             0.0
         } else {
             1.0
@@ -88,11 +90,12 @@ impl Wave for SquareWave {
 }
 
 /// A simple saw wave.
-pub struct SawWave;
+#[derive(Default)]
+pub struct SawWave(pub f32);
 
 impl Wave for SawWave {
     fn calculate(&self, t: f32) -> f32 {
-        t % 1.0
+        (t * 2.0f32.powf(self.0)) % 1.0
     }
 }
 

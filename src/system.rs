@@ -133,6 +133,7 @@ impl Audact {
 
                 // Calc the freq for the wave
                 let freq = t * freq / sample_rate;
+                //let freq = freq / 2.0f32.powf((n_t * std::f32::consts::PI / 2.0).sin());
                 // Call the wave gen fn
                 (wave.calculate(freq) * 2.0 - 1.0) * volume.calculate(n_t)
             })
