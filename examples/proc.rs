@@ -10,7 +10,7 @@ use std::{iter, time::Duration};
 fn main() {
     let seq_len = 16;
 
-    let mut audact = Audact::new(seq_len, 100, 4f32);
+    let mut audact = Audact::new(100, 4f32);
 
     let mut rng = rand::thread_rng();
 

@@ -13,12 +13,10 @@ pub struct Audact {
     output_stream_handle: OutputStreamHandle,
     /// Vec of voice channels that audact will play
     channels: Vec<Channel>,
-    /// The number of steps for the sequencer
-    steps: i32,
     /// Sample rate
     sample_rate: u32,
     /// Samples needed per step
-    total_samples_needed: f32,
+    samples_needed: f32,
 }
 
 /// Stuct to represent a channel
@@ -59,7 +57,7 @@ impl Default for Processing {
 /// implementation for the audact struct
 impl Audact {
     /// Creates a new instance of audact
-    pub fn new(steps: i32, bpm: i32, per_bar: f32) -> Audact {
+    pub fn new(bpm: i32, per_bar: f32) -> Audact {
         let (_output_stream, output_stream_handle) = OutputStream::try_default().unwrap();
         // Sample rate and step duration
         let sample_rate = 44100f32;
@@ -69,15 +67,13 @@ impl Audact {
         let subsecs = bpm_duration.subsec_nanos() as f32 / 100_000_000f32;
         let samples_needed =
             sample_rate * ((bpm_duration.as_secs() as f32 + subsecs) / 4f32) * 0.8f32;
-        let total_samples_needed = samples_needed * steps as f32;
         // Create and return instance
         Audact {
             _output_stream,
             output_stream_handle,
             channels: Vec::new(),
-            steps,
             sample_rate: sample_rate as u32,
-            total_samples_needed,
+            samples_needed,
         }
     }
 
@@ -112,11 +108,11 @@ impl Audact {
         sink.set_volume(volume);
 
         let sample_rate = self.sample_rate as f32;
-        let steps = self.steps as f32;
-        let total_samples_needed = self.total_samples_needed;
+        let steps = seq.len() as f32;
+        let total_samples_needed = self.samples_needed * steps as f32;
 
         // Create the basic waveform samples
-        let mut source: Vec<f32> = (0u64..self.total_samples_needed as u64)
+        let mut source: Vec<f32> = (0u64..total_samples_needed as u64)
             .map(move |t| {
                 let t = t as f32;
                 // Silence if not playing in this step

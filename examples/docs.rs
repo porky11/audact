@@ -5,7 +5,7 @@ use audact::{
 };
 
 fn main() {
-    let mut audact = Audact::new(16, 120, 4f32);
+    let mut audact = Audact::new(120, 4f32);
 
     let default_processing = Processing::default();
     let n_1 = std_note_freq(0);
