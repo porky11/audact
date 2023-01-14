@@ -10,12 +10,7 @@ fn main() {
     let c = std_note_freq(0);
 
     // single test tone
-    audact.channel(
-        SineWave,
-        0.7f32,
-        Processing::default(),
-        vec![c, c, c, c, c, c, c, c, c, c, c, c, c, c, c, c],
-    );
+    audact.channel(SineWave, 0.7f32, Processing::default(), vec![c; 0x10]);
 
     audact.start(1);
 }
