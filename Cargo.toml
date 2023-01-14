@@ -11,6 +11,6 @@ description = "Minimalist synth and sequencing lib"
 edition = "2018"
 
 [dependencies]
-rand = "0.7"
-rodio = "0.12"
-derive_builder = "0.9"
+rand = "0.8.5"
+rodio = "0.16.0"
+derive_builder = "0.12.0"
