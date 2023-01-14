@@ -2,6 +2,7 @@ use crate::waves::Wave;
 
 use std::time::Duration;
 
+use derive_builder::Builder;
 use rodio::{buffer::SamplesBuffer, source, OutputStream, OutputStreamHandle, Sink, Source};
 
 /// Struct for the main audact system

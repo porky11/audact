@@ -52,9 +52,6 @@ fn main() {
 
 #![deny(missing_docs)]
 
-#[macro_use]
-extern crate derive_builder;
-
 /// Module containing note frequencies
 pub mod notes;
 /// Module for the main audact system
