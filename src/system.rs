@@ -125,7 +125,7 @@ impl Audact {
                 // Calc the freq for the wave
                 let freq = t * freq / sample_rate;
                 // Call the wave gen fn
-                wave.calculate(freq)
+                wave.calculate(freq) * 2.0 - 1.0
             })
             .collect();
 
