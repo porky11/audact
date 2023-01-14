@@ -68,6 +68,12 @@ impl Wave for SineWave {
     }
 }
 
+impl Wave for &dyn Wave {
+    fn calculate(&self, t: f32) -> f32 {
+        (*self).calculate(t)
+    }
+}
+
 /// A simple square wave.
 pub struct SquareWave;
 
