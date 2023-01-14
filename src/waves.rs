@@ -64,7 +64,7 @@ pub struct SineWave;
 
 impl Wave for SineWave {
     fn calculate(&self, t: f32) -> f32 {
-        (t * std::f32::consts::PI).sin().round()
+        (t * std::f32::consts::PI).sin()
     }
 }
 
