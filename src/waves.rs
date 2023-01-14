@@ -10,6 +10,11 @@ pub trait Wave: Sized {
         MixWave { a, b, ratio: self }
     }
 
+    /// Add waves.
+    fn add<W: Wave>(self, other: W) -> AddWave<Self, W> {
+        AddWave { a: self, b: other }
+    }
+
     /// Multiply waves.
     fn multiply<W: Wave>(self, other: W) -> MultiplyWave<Self, W> {
         MultiplyWave { a: self, b: other }
@@ -90,6 +95,18 @@ impl<A: Wave, B: Wave, R: Wave> Wave for MixWave<A, B, R> {
     fn calculate(&self, t: f32) -> f32 {
         let ratio = self.ratio.calculate(t) / 2.0 + 0.5;
         self.a.calculate(t) * ratio + self.b.calculate(t) * (1.0 - ratio)
+    }
+}
+
+/// Adds waves.
+pub struct AddWave<A: Wave, B: Wave> {
+    a: A,
+    b: B,
+}
+
+impl<A: Wave, B: Wave> Wave for AddWave<A, B> {
+    fn calculate(&self, t: f32) -> f32 {
+        self.a.calculate(t) + self.b.calculate(t)
     }
 }
 

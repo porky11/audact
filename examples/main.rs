@@ -65,5 +65,5 @@ fn main() {
         ],
     );
 
-    audact.start(1);
+    audact.run(1);
 }

@@ -28,6 +28,6 @@ fn main() {
     );
 
     // play the patterns one after another
-    pattern_1.start(1);
-    pattern_2.start(1);
+    pattern_1.run(1);
+    pattern_2.run(1);
 }

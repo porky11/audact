@@ -12,5 +12,5 @@ fn main() {
     // single test tone
     audact.channel(SineWave, 0.7f32, Processing::default(), vec![c; 0x10]);
 
-    audact.start(1);
+    audact.run(1);
 }

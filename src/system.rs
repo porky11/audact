@@ -141,14 +141,13 @@ impl Audact {
         self.channels.push(channel);
     }
 
-    /// Kick off audact to start and loop 'bars' times
-    pub fn start(&mut self, bars: i32) {
+    /// Start playing the audio `bars` times
+    pub fn start(&self, bars: i32) {
         // grab some values from the stuct to be moved
-        let tmp_voice_channels = &self.channels;
         let sample_rate = self.sample_rate;
         // The repeats of the sequence
         for _ in 0..bars {
-            for chan in tmp_voice_channels {
+            for chan in &self.channels {
                 // create buffer
                 let samples = chan.source.clone();
                 let sample_buffer = vec![SamplesBuffer::new(2, sample_rate, samples)];
@@ -163,13 +162,24 @@ impl Audact {
                 chan.sink.append(source);
             }
         }
+
         // Play all the channels
-        for chan in tmp_voice_channels {
+        for chan in &self.channels {
             chan.sink.play();
         }
+    }
+
+    /// Wait for the audio to end
+    pub fn wait(&self) {
         // Sleep until the end of the sequence
-        for chan in tmp_voice_channels {
+        for chan in &self.channels {
             chan.sink.sleep_until_end();
         }
+    }
+
+    /// Play the audio `bars` times and wait for it to end
+    pub fn run(&self, bars: i32) {
+        self.start(bars);
+        self.wait();
     }
 }
