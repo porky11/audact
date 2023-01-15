@@ -117,7 +117,7 @@ pub struct MixWave<A: Wave, B: Wave, R: Wave> {
 
 impl<A: Wave, B: Wave, R: Wave> Wave for MixWave<A, B, R> {
     fn calculate(&self, t: f32) -> f32 {
-        let ratio = self.ratio.calculate(t) / 2.0 + 0.5;
+        let ratio = self.ratio.calculate(t);
         self.a.calculate(t) * ratio + self.b.calculate(t) * (1.0 - ratio)
     }
 }
