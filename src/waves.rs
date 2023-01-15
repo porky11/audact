@@ -60,7 +60,7 @@ impl Wave for f32 {
 }
 
 /// A simple sine wave.
-#[derive(Default)]
+#[derive(Default, Clone, Copy)]
 pub struct SineWave(pub f32);
 
 impl Wave for SineWave {
@@ -76,7 +76,7 @@ impl Wave for &dyn Wave {
 }
 
 /// A simple square wave.
-#[derive(Default)]
+#[derive(Default, Clone, Copy)]
 pub struct SquareWave(pub f32);
 
 impl Wave for SquareWave {
@@ -90,7 +90,7 @@ impl Wave for SquareWave {
 }
 
 /// A simple saw wave.
-#[derive(Default)]
+#[derive(Default, Clone, Copy)]
 pub struct SawWave(pub f32);
 
 impl Wave for SawWave {
@@ -100,6 +100,7 @@ impl Wave for SawWave {
 }
 
 /// A simple noise wave.
+#[derive(Clone, Copy)]
 pub struct NoiseWave;
 
 impl Wave for NoiseWave {
@@ -109,6 +110,7 @@ impl Wave for NoiseWave {
 }
 
 /// Mixes waves using a specified ratio.
+#[derive(Clone, Copy)]
 pub struct MixWave<A: Wave, B: Wave, R: Wave> {
     a: A,
     b: B,
@@ -123,6 +125,7 @@ impl<A: Wave, B: Wave, R: Wave> Wave for MixWave<A, B, R> {
 }
 
 /// Adds waves.
+#[derive(Clone, Copy)]
 pub struct AddWave<A: Wave, B: Wave> {
     a: A,
     b: B,
@@ -135,6 +138,7 @@ impl<A: Wave, B: Wave> Wave for AddWave<A, B> {
 }
 
 /// Multipies waves.
+#[derive(Clone, Copy)]
 pub struct MultiplyWave<A: Wave, B: Wave> {
     a: A,
     b: B,
@@ -147,6 +151,7 @@ impl<A: Wave, B: Wave> Wave for MultiplyWave<A, B> {
 }
 
 /// Reverses a wave.
+#[derive(Clone, Copy)]
 pub struct ReverseWave<W: Wave>(W);
 
 impl<W: Wave> Wave for ReverseWave<W> {
@@ -156,6 +161,7 @@ impl<W: Wave> Wave for ReverseWave<W> {
 }
 
 /// Flips a wave.
+#[derive(Clone, Copy)]
 pub struct FlipWave<W: Wave>(W);
 
 impl<W: Wave> Wave for FlipWave<W> {
