@@ -109,6 +109,16 @@ impl Wave for SawWave {
     }
 }
 
+/// A simple hill wave.
+#[derive(Default, Clone, Copy)]
+pub struct HillWave(pub f32);
+
+impl Wave for HillWave {
+    fn calculate(&self, t: f32) -> f32 {
+        (t * 2.0f32.powf(self.0) * std::f32::consts::PI).sin().abs()
+    }
+}
+
 /// A simple noise wave.
 #[derive(Clone, Copy)]
 pub struct NoiseWave;
