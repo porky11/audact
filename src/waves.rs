@@ -75,6 +75,16 @@ impl Wave for SineWave {
     }
 }
 
+/// A simple triangle wave.
+#[derive(Default, Clone, Copy)]
+pub struct TriangleWave(pub f32);
+
+impl Wave for TriangleWave {
+    fn calculate(&self, t: f32) -> f32 {
+        ((t * 2.0 * 2.0f32.powf(self.0)) % 2.0 - 1.0).abs()
+    }
+}
+
 /// A simple square wave.
 #[derive(Default, Clone, Copy)]
 pub struct SquareWave(pub f32);
