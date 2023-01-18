@@ -59,6 +59,12 @@ impl Wave for f32 {
     }
 }
 
+impl Wave for &dyn Wave {
+    fn calculate(&self, t: f32) -> f32 {
+        (*self).calculate(t)
+    }
+}
+
 /// A simple sine wave.
 #[derive(Default, Clone, Copy)]
 pub struct SineWave(pub f32);
@@ -66,12 +72,6 @@ pub struct SineWave(pub f32);
 impl Wave for SineWave {
     fn calculate(&self, t: f32) -> f32 {
         ((t * 2.0f32.powf(self.0) * std::f32::consts::PI * 2.0).sin() + 1.0) / 2.0
-    }
-}
-
-impl Wave for &dyn Wave {
-    fn calculate(&self, t: f32) -> f32 {
-        (*self).calculate(t)
     }
 }
 
