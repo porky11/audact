@@ -12,5 +12,5 @@ edition = "2021"
 
 [dependencies]
 rand = "0.8.5"
-rodio = "0.16.0"
+rodio = { version = "0.16.0", default-features = false }
 derive_builder = "0.12.0"
