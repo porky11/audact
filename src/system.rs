@@ -60,13 +60,9 @@ impl Audact {
     /// Creates a new instance of audact
     pub fn new(bpm_duration: Duration) -> Audact {
         let (_output_stream, output_stream_handle) = OutputStream::try_default().unwrap();
-        // Sample rate and step duration
         let sample_rate = 44100f32;
-        // Calculate the number of samples needed per step
-        let subsecs = bpm_duration.subsec_nanos() as f32 / 100_000_000f32;
-        let samples_needed =
-            sample_rate * ((bpm_duration.as_secs() as f32 + subsecs) / 4f32) * 0.8f32;
-        // Create and return instance
+        let samples_needed = sample_rate * bpm_duration.as_secs_f32();
+
         Audact {
             _output_stream,
             output_stream_handle,
