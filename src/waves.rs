@@ -16,6 +16,14 @@ pub trait Wave {
         }
     }
 
+    /// Add a specific octave for a wave.
+    fn octave(self, octaves: f32) -> FrequencyWave<Self>
+    where
+        Self: Sized,
+    {
+        self.frequency(2.0f32.powf(octaves))
+    }
+
     /// Mix waves using a specified ratio.
     fn mix<A: Wave, B: Wave>(self, a: A, b: B) -> MixWave<A, B, Self>
     where
