@@ -10,7 +10,7 @@ use std::{iter, time::Duration};
 fn main() {
     let seq_len = 16;
 
-    let duration = Duration::from_millis(100);
+    let duration = Duration::from_millis(1500);
     let mut audact = Audact::new(duration);
 
     let mut rng = rand::thread_rng();

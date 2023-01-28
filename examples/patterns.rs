@@ -7,7 +7,7 @@ use audact::{
 };
 
 fn main() {
-    let duration = Duration::from_millis(100);
+    let duration = Duration::from_millis(1500);
     let mut pattern_1 = Audact::new(duration);
 
     let n_1 = std_note_freq(0);
@@ -20,7 +20,7 @@ fn main() {
         ],
     );
 
-    let duration = Duration::from_millis(100);
+    let duration = Duration::from_millis(1500);
     let mut pattern_2 = Audact::new(duration);
     let n_2 = std_note_freq(4);
     pattern_2.channel(

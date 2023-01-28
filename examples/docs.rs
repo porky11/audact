@@ -7,7 +7,7 @@ use audact::{
 };
 
 fn main() {
-    let duration = Duration::from_millis(125);
+    let duration = Duration::from_millis(2000);
     let mut audact = Audact::new(duration);
 
     let default_processing = Processing::default();

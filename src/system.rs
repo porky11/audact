@@ -110,14 +110,13 @@ impl Audact {
         let sample_rate = self.sample_rate as f32;
         let steps = seq.len() as f32;
         let samples_needed = self.samples_needed;
-        let total_samples_needed = samples_needed * steps as f32;
 
         // Create the basic waveform samples
-        let mut source: Vec<f32> = (0u64..total_samples_needed as u64)
+        let mut source: Vec<f32> = (0u64..samples_needed as u64)
             .map(move |t| {
                 let t = t as f32;
                 // Silence if not playing in this step
-                let s_t = total_samples_needed / t;
+                let s_t = samples_needed / t;
                 let freq = seq[(steps / s_t).floor() as usize];
                 if freq == 0f32 {
                     return 0f32;

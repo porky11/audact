@@ -7,7 +7,7 @@ use audact::{
 };
 
 fn main() {
-    let duration = Duration::from_millis(100);
+    let duration = Duration::from_millis(1500);
     let mut audact = Audact::new(duration);
 
     let c = std_note_freq(0);
