@@ -1,3 +1,5 @@
+use std::time::Duration;
+
 use audact::{
     notes::std_note_freq,
     system::{Audact, Processing},
@@ -5,7 +7,9 @@ use audact::{
 };
 
 fn main() {
-    let mut pattern_1 = Audact::new(100, 4f32);
+    let duration = Duration::from_millis(100);
+    let mut pattern_1 = Audact::new(duration);
+
     let n_1 = std_note_freq(0);
     pattern_1.channel(
         SineWave,
@@ -16,7 +20,8 @@ fn main() {
         ],
     );
 
-    let mut pattern_2 = Audact::new(100, 4f32);
+    let duration = Duration::from_millis(100);
+    let mut pattern_2 = Audact::new(duration);
     let n_2 = std_note_freq(4);
     pattern_2.channel(
         SineWave,

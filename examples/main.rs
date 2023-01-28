@@ -7,7 +7,8 @@ use audact::{
 use std::time::Duration;
 
 fn main() {
-    let mut audact = Audact::new(100, 4f32);
+    let duration = Duration::from_millis(100);
+    let mut audact = Audact::new(duration);
 
     let lead_processing = ProcessingBuilder::default()
         .attack(Duration::from_millis(100u64))

@@ -11,6 +11,8 @@ Usage:
 ```no_run
 extern crate audact;
 
+use std::time::Duration;
+
 use audact::{
     notes::std_note_freq,
     system::{Audact, Processing},
@@ -18,7 +20,8 @@ use audact::{
 };
 
 fn main() {
-    let mut audact = Audact::new(120, 4f32);
+    let duration = Duration::from_millis(125);
+    let mut audact = Audact::new(duration);
 
     let default_processing = Processing::default();
     let n_1 = std_note_freq(0);

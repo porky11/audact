@@ -58,12 +58,10 @@ impl Default for Processing {
 /// implementation for the audact struct
 impl Audact {
     /// Creates a new instance of audact
-    pub fn new(bpm: i32, per_bar: f32) -> Audact {
+    pub fn new(bpm_duration: Duration) -> Audact {
         let (_output_stream, output_stream_handle) = OutputStream::try_default().unwrap();
         // Sample rate and step duration
         let sample_rate = 44100f32;
-        let bpm_duration =
-            Duration::from_millis((((60f32 / bpm as f32) * 1000f32) / per_bar) as u64);
         // Calculate the number of samples needed per step
         let subsecs = bpm_duration.subsec_nanos() as f32 / 100_000_000f32;
         let samples_needed =
