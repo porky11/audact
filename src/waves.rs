@@ -5,6 +5,17 @@ pub trait Wave {
     /// Calculates the wave
     fn calculate(&self, t: f32) -> f32;
 
+    /// Use a specific frequency for a wave.
+    fn frequency(self, frequency: f32) -> FrequencyWave<Self>
+    where
+        Self: Sized,
+    {
+        FrequencyWave {
+            wave: self,
+            frequency,
+        }
+    }
+
     /// Mix waves using a specified ratio.
     fn mix<A: Wave, B: Wave>(self, a: A, b: B) -> MixWave<A, B, Self>
     where
@@ -126,6 +137,19 @@ pub struct NoiseWave;
 impl Wave for NoiseWave {
     fn calculate(&self, _: f32) -> f32 {
         random::<f32>()
+    }
+}
+
+/// Wave having a specific frequency.
+#[derive(Clone, Copy)]
+pub struct FrequencyWave<W: Wave> {
+    wave: W,
+    frequency: f32,
+}
+
+impl<W: Wave> Wave for FrequencyWave<W> {
+    fn calculate(&self, t: f32) -> f32 {
+        self.wave.calculate(t * self.frequency)
     }
 }
 
