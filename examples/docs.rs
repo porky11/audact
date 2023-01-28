@@ -12,7 +12,7 @@ fn main() {
     let n_2 = std_note_freq(2);
 
     audact.channel(
-        SineWave::default(),
+        SineWave,
         1f32,
         default_processing,
         vec![
@@ -21,7 +21,7 @@ fn main() {
         ],
     );
     audact.channel(
-        SquareWave::default(),
+        SquareWave,
         1f32,
         default_processing,
         vec![

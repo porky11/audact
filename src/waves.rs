@@ -77,32 +77,32 @@ impl Wave for &dyn Wave {
 }
 
 /// A simple sine wave.
-#[derive(Default, Clone, Copy)]
-pub struct SineWave(pub f32);
+#[derive(Clone, Copy)]
+pub struct SineWave;
 
 impl Wave for SineWave {
     fn calculate(&self, t: f32) -> f32 {
-        ((t * 2.0f32.powf(self.0) * std::f32::consts::PI * 2.0).sin() + 1.0) / 2.0
+        ((t * std::f32::consts::PI * 2.0).sin() + 1.0) / 2.0
     }
 }
 
 /// A simple triangle wave.
-#[derive(Default, Clone, Copy)]
-pub struct TriangleWave(pub f32);
+#[derive(Clone, Copy)]
+pub struct TriangleWave;
 
 impl Wave for TriangleWave {
     fn calculate(&self, t: f32) -> f32 {
-        ((t * 2.0 * 2.0f32.powf(self.0)) % 2.0 - 1.0).abs()
+        ((t * 2.0) % 2.0 - 1.0).abs()
     }
 }
 
 /// A simple square wave.
-#[derive(Default, Clone, Copy)]
-pub struct SquareWave(pub f32);
+#[derive(Clone, Copy)]
+pub struct SquareWave;
 
 impl Wave for SquareWave {
     fn calculate(&self, t: f32) -> f32 {
-        if (t * 2.0f32.powf(self.0)) % 1.0 < 0.5 {
+        if t % 1.0 < 0.5 {
             0.0
         } else {
             1.0
@@ -111,22 +111,22 @@ impl Wave for SquareWave {
 }
 
 /// A simple saw wave.
-#[derive(Default, Clone, Copy)]
-pub struct SawWave(pub f32);
+#[derive(Clone, Copy)]
+pub struct SawWave;
 
 impl Wave for SawWave {
     fn calculate(&self, t: f32) -> f32 {
-        (t * 2.0f32.powf(self.0)) % 1.0
+        t % 1.0
     }
 }
 
 /// A simple hill wave.
-#[derive(Default, Clone, Copy)]
-pub struct HillWave(pub f32);
+#[derive(Clone, Copy)]
+pub struct HillWave;
 
 impl Wave for HillWave {
     fn calculate(&self, t: f32) -> f32 {
-        (t * 2.0f32.powf(self.0) * std::f32::consts::PI).sin().abs()
+        (t * std::f32::consts::PI).sin().abs()
     }
 }
 

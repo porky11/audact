@@ -22,7 +22,7 @@ fn main() {
     let l_2 = std_note_freq(-2);
     let l_3 = std_note_freq(-4);
     audact.channel(
-        SawWave::default(),
+        SawWave,
         0.1f32,
         lead_processing,
         vec![
@@ -35,7 +35,7 @@ fn main() {
     let p_2 = std_note_freq(-14);
     let p_3 = std_note_freq(-16);
     audact.channel(
-        SquareWave::default(),
+        SquareWave,
         0.1f32,
         default_processing,
         vec![
@@ -47,7 +47,7 @@ fn main() {
     let b_2 = std_note_freq(-26);
     //bass
     audact.channel(
-        SineWave::default(),
+        SineWave,
         0.1f32,
         default_processing,
         vec![
