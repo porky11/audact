@@ -57,6 +57,8 @@ fn main() {
 
 /// Module containing note frequencies
 pub mod notes;
+/// Module containing the pitchers
+pub mod pitchers;
 /// Module for the main audact system
 pub mod system;
 /// Module containing some common wave types

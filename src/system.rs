@@ -1,4 +1,4 @@
-use crate::waves::Wave;
+use crate::{pitchers::Pitcher, waves::Wave};
 
 use std::time::Duration;
 
@@ -101,34 +101,31 @@ impl Audact {
         wave: impl Wave,
         volume: impl Wave,
         processing: Processing,
-        seq: Vec<f32>,
+        pitcher: impl Pitcher,
     ) {
         // create the sink to play from
         let sink = Sink::try_new(&self.output_stream_handle).unwrap();
         sink.pause();
 
         let sample_rate = self.sample_rate as f32;
-        let steps = seq.len() as f32;
         let samples_needed = self.samples_needed;
 
         // Create the basic waveform samples
         let mut source: Vec<f32> = (0u64..samples_needed as u64)
             .map(move |t| {
                 let t = t as f32;
+                let n_t = t / samples_needed;
+
+                let freq = pitcher.calculate(n_t);
+
                 // Silence if not playing in this step
-                let s_t = samples_needed / t;
-                let freq = seq[(steps / s_t).floor() as usize];
-                if freq == 0f32 {
-                    return 0f32;
+                if freq == 0.0 {
+                    return 0.0;
                 }
 
-                let n_t = t / (samples_needed - 1.0);
+                let t_f = t * freq / sample_rate;
 
-                // Calc the freq for the wave
-                let freq = t * freq / sample_rate;
-                //let freq = freq / 2.0f32.powf((n_t * std::f32::consts::PI / 2.0).sin());
-                // Call the wave gen fn
-                (wave.calculate(freq) * 2.0 - 1.0) * volume.calculate(n_t)
+                (wave.calculate(t_f) * 2.0 - 1.0) * volume.calculate(n_t)
             })
             .collect();
 
