@@ -38,7 +38,14 @@ pub struct WavePitcher<W: Wave> {
     range: f32,
 }
 
-impl<W: Wave> Wave for WavePitcher<W> {
+impl<W: Wave> WavePitcher<W> {
+    /// Creates a new wave pitcher.
+    pub fn new(wave: W, range: f32) -> Self {
+        Self { wave, range }
+    }
+}
+
+impl<W: Wave> Pitcher for WavePitcher<W> {
     fn calculate(&self, t: f32) -> f32 {
         let ratio = self.wave.calculate(t) * 2.0 - 1.0;
         2.0f32.powf(self.range * ratio)
