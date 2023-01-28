@@ -39,22 +39,13 @@ fn main() {
         SquareWave,
         0.1f32,
         default_processing,
-        vec![
-            p_1, p_1, p_1, p_1, p_1, p_1, p_1, p_1, p_2, p_2, p_2, p_2, p_3, p_3, p_3, p_3,
-        ],
+        vec![p_1, p_1, p_2, p_3],
     );
 
     let b_1 = std_note_freq(-24);
     let b_2 = std_note_freq(-26);
     //bass
-    audact.channel(
-        SineWave,
-        0.1f32,
-        default_processing,
-        vec![
-            b_1, b_1, b_1, b_1, b_1, b_1, b_1, b_1, b_2, b_2, b_2, b_2, b_2, b_2, b_2, b_2,
-        ],
-    );
+    audact.channel(SineWave, 0.1f32, default_processing, vec![b_1, b_2]);
 
     // percussion
     audact.channel(

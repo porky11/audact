@@ -7,7 +7,7 @@ use audact::{
 };
 
 fn main() {
-    let duration = Duration::from_millis(2000);
+    let duration = Duration::from_millis(500);
     let mut audact = Audact::new(duration);
 
     let default_processing = Processing::default();
@@ -18,20 +18,14 @@ fn main() {
         SineWave,
         1f32,
         default_processing,
-        vec![
-            n_1, 0f32, 0f32, 0f32, n_1, 0f32, 0f32, 0f32, n_1, 0f32, 0f32, 0f32, n_1, 0f32, 0f32,
-            0f32,
-        ],
+        vec![n_1, 0f32, 0f32, 0f32],
     );
     audact.channel(
         SquareWave,
         1f32,
         default_processing,
-        vec![
-            0f32, 0f32, n_2, 0f32, 0f32, 0f32, n_2, 0f32, 0f32, 0f32, n_2, 0f32, 0f32, 0f32, n_2,
-            0f32,
-        ],
+        vec![0f32, 0f32, n_2, 0f32],
     );
 
-    audact.run(1);
+    audact.run(4);
 }
