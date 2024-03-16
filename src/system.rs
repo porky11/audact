@@ -31,6 +31,27 @@ struct Channel {
     processing: Processing,
 }
 
+impl Channel {
+    fn play(&self, sample_rate: u32, bars: i32) {
+        for _ in 0..bars {
+            // create buffer
+            let samples = self.source.clone();
+            let sample_buffer = vec![SamplesBuffer::new(2, sample_rate, samples)];
+            // create the source
+            let source = source::from_iter(sample_buffer)
+                .buffered()
+                .fade_in(self.processing.attack)
+                .low_pass(self.processing.filter.1 as u32)
+                .reverb(self.processing.reverb.0, self.processing.reverb.1)
+                .amplify(self.processing.gain);
+            // add source to sink queue
+            self.sink.append(source);
+        }
+
+        self.sink.play();
+    }
+}
+
 /// Represents processing values on a channel
 #[derive(Builder, Clone, Copy)]
 #[builder(default)]
@@ -145,29 +166,9 @@ impl Audact {
 
     /// Start playing the audio `bars` times
     pub fn start(&self, bars: i32) {
-        // grab some values from the stuct to be moved
         let sample_rate = self.sample_rate;
-        // The repeats of the sequence
-        for _ in 0..bars {
-            for chan in &self.channels {
-                // create buffer
-                let samples = chan.source.clone();
-                let sample_buffer = vec![SamplesBuffer::new(2, sample_rate, samples)];
-                // create the source
-                let source = source::from_iter(sample_buffer)
-                    .buffered()
-                    .fade_in(chan.processing.attack)
-                    .low_pass(chan.processing.filter.1 as u32)
-                    .reverb(chan.processing.reverb.0, chan.processing.reverb.1)
-                    .amplify(chan.processing.gain);
-                // add source to sink queue
-                chan.sink.append(source);
-            }
-        }
-
-        // Play all the channels
         for chan in &self.channels {
-            chan.sink.play();
+            chan.play(sample_rate, bars);
         }
     }
 
