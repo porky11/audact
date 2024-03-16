@@ -182,6 +182,22 @@ impl Audact {
         }
     }
 
+    /// Play single wave on a new channel
+    pub fn play(
+        &mut self,
+        wave: impl Wave,
+        volume: impl Wave,
+        processing: Processing,
+        pitcher: impl Pitcher,
+        bpm_duration: Duration,
+    ) -> Result<(), PlayError> {
+        let channel = Channel::new(self, wave, volume, processing, pitcher, bpm_duration)?;
+        channel.play(self.sample_rate, 1);
+        self.channels.push(channel);
+
+        Ok(())
+    }
+
     /// Wait for the audio to end
     pub fn wait(&self) {
         // Sleep until the end of the sequence
