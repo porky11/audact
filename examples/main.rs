@@ -8,7 +8,7 @@ use std::time::Duration;
 
 fn main() {
     let duration = Duration::from_millis(1500);
-    let mut audact = Audact::new(duration).unwrap();
+    let mut audact = Audact::new().unwrap();
 
     let lead_processing = ProcessingBuilder::default()
         .attack(Duration::from_millis(100u64))
@@ -30,6 +30,7 @@ fn main() {
             vec![
                 l_1, l_2, l_3, l_3, l_1, l_2, l_3, l_3, l_1, l_2, l_3, l_3, l_1, l_2, l_3, l_3,
             ],
+            duration,
         )
         .unwrap();
 
@@ -43,6 +44,7 @@ fn main() {
             0.1f32,
             default_processing,
             vec![p_1, p_1, p_2, p_3],
+            duration,
         )
         .unwrap();
 
@@ -50,7 +52,13 @@ fn main() {
     let b_2 = std_note_freq(-26);
     //bass
     audact
-        .channel(SineWave, 0.1f32, default_processing, vec![b_1, b_2])
+        .channel(
+            SineWave,
+            0.1f32,
+            default_processing,
+            vec![b_1, b_2],
+            duration,
+        )
         .unwrap();
 
     // percussion
@@ -63,6 +71,7 @@ fn main() {
                 b_1, 0f32, l_1, 0f32, b_1, 0f32, l_1, 0f32, b_1, 0f32, l_1, 0f32, b_1, 0f32, l_1,
                 0f32,
             ],
+            duration,
         )
         .unwrap();
 

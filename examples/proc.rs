@@ -11,7 +11,7 @@ fn main() {
     let seq_len = 16;
 
     let duration = Duration::from_millis(1500);
-    let mut audact = Audact::new(duration).unwrap();
+    let mut audact = Audact::new().unwrap();
 
     let mut rng = rand::thread_rng();
 
@@ -26,7 +26,9 @@ fn main() {
         .unwrap();
 
     // single test tone
-    audact.channel(SineWave, 0.3f32, processing, seq).unwrap();
+    audact
+        .channel(SineWave, 0.3f32, processing, seq, duration)
+        .unwrap();
 
     audact.run(4);
 }

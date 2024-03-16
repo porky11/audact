@@ -19,8 +19,6 @@ pub struct Audact {
     channels: Vec<Channel>,
     /// Sample rate
     sample_rate: u32,
-    /// Samples needed per step
-    samples_needed: f32,
 }
 
 /// Stuct to represent a channel
@@ -61,17 +59,15 @@ impl Default for Processing {
 /// implementation for the audact struct
 impl Audact {
     /// Creates a new instance of audact
-    pub fn new(bpm_duration: Duration) -> Result<Audact, StreamError> {
+    pub fn new() -> Result<Audact, StreamError> {
         let (_output_stream, output_stream_handle) = OutputStream::try_default()?;
         let sample_rate = 44100f32;
-        let samples_needed = sample_rate * bpm_duration.as_secs_f32();
 
         Ok(Audact {
             _output_stream,
             output_stream_handle,
             channels: Vec::new(),
             sample_rate: sample_rate as u32,
-            samples_needed,
         })
     }
 
@@ -105,13 +101,14 @@ impl Audact {
         volume: impl Wave,
         processing: Processing,
         pitcher: impl Pitcher,
+        bpm_duration: Duration,
     ) -> Result<(), PlayError> {
         // create the sink to play from
         let sink = Sink::try_new(&self.output_stream_handle)?;
         sink.pause();
 
         let sample_rate = self.sample_rate as f32;
-        let samples_needed = self.samples_needed;
+        let samples_needed = sample_rate * bpm_duration.as_secs_f32();
 
         // Create the basic waveform samples
         let mut source: Vec<f32> = (0u64..samples_needed as u64)

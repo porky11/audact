@@ -8,7 +8,7 @@ use audact::{
 
 fn main() {
     let duration = Duration::from_millis(500);
-    let mut audact = Audact::new(duration).unwrap();
+    let mut audact = Audact::new().unwrap();
 
     let default_processing = Processing::default();
     let n_1 = std_note_freq(0);
@@ -20,6 +20,7 @@ fn main() {
             1f32,
             default_processing,
             vec![n_1, 0f32, 0f32, 0f32],
+            duration,
         )
         .unwrap();
     audact
@@ -28,6 +29,7 @@ fn main() {
             1f32,
             default_processing,
             vec![0f32, 0f32, n_2, 0f32],
+            duration,
         )
         .unwrap();
 
