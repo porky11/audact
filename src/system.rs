@@ -3,7 +3,10 @@ use crate::{pitchers::Pitcher, waves::Wave};
 use std::time::Duration;
 
 use derive_builder::Builder;
-use rodio::{buffer::SamplesBuffer, source, OutputStream, OutputStreamHandle, Sink, Source};
+use rodio::{
+    buffer::SamplesBuffer, source, OutputStream, OutputStreamHandle, PlayError, Sink, Source,
+    StreamError,
+};
 
 /// Struct for the main audact system
 pub struct Audact {
@@ -58,18 +61,18 @@ impl Default for Processing {
 /// implementation for the audact struct
 impl Audact {
     /// Creates a new instance of audact
-    pub fn new(bpm_duration: Duration) -> Audact {
-        let (_output_stream, output_stream_handle) = OutputStream::try_default().unwrap();
+    pub fn new(bpm_duration: Duration) -> Result<Audact, StreamError> {
+        let (_output_stream, output_stream_handle) = OutputStream::try_default()?;
         let sample_rate = 44100f32;
         let samples_needed = sample_rate * bpm_duration.as_secs_f32();
 
-        Audact {
+        Ok(Audact {
             _output_stream,
             output_stream_handle,
             channels: Vec::new(),
             sample_rate: sample_rate as u32,
             samples_needed,
-        }
+        })
     }
 
     /// Smooth out the generated source
@@ -102,9 +105,9 @@ impl Audact {
         volume: impl Wave,
         processing: Processing,
         pitcher: impl Pitcher,
-    ) {
+    ) -> Result<(), PlayError> {
         // create the sink to play from
-        let sink = Sink::try_new(&self.output_stream_handle).unwrap();
+        let sink = Sink::try_new(&self.output_stream_handle)?;
         sink.pause();
 
         let sample_rate = self.sample_rate as f32;
@@ -139,6 +142,8 @@ impl Audact {
         };
 
         self.channels.push(channel);
+
+        Ok(())
     }
 
     /// Start playing the audio `bars` times

@@ -8,12 +8,14 @@ use audact::{
 
 fn main() {
     let duration = Duration::from_millis(1500);
-    let mut audact = Audact::new(duration);
+    let mut audact = Audact::new(duration).unwrap();
 
     let c = std_note_freq(0);
 
     // single test tone
-    audact.channel(SineWave, 0.7f32, Processing::default(), c);
+    audact
+        .channel(SineWave, 0.7f32, Processing::default(), c)
+        .unwrap();
 
     audact.run(1);
 }
