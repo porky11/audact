@@ -32,6 +32,50 @@ struct Channel {
 }
 
 impl Channel {
+    fn new(
+        audact: &Audact,
+        wave: impl Wave,
+        volume: impl Wave,
+        processing: Processing,
+        pitcher: impl Pitcher,
+        bpm_duration: Duration,
+    ) -> Result<Self, PlayError> {
+        // create the sink to play from
+        let sink = Sink::try_new(&audact.output_stream_handle)?;
+        sink.pause();
+
+        let sample_rate = audact.sample_rate as f32;
+        let samples_needed = sample_rate * bpm_duration.as_secs_f32();
+
+        // Create the basic waveform samples
+        let mut source: Vec<f32> = (0u64..samples_needed as u64)
+            .map(move |t| {
+                let t = t as f32;
+                let n_t = t / samples_needed;
+
+                let freq = pitcher.calculate(n_t);
+
+                // Silence if not playing in this step
+                if freq == 0.0 {
+                    return 0.0;
+                }
+
+                let t_f = t * freq / sample_rate;
+
+                (wave.calculate(t_f) * 2.0 - 1.0) * volume.calculate(n_t)
+            })
+            .collect();
+
+        Audact::smooth_source(&mut source);
+
+        // Create the processing chain and channel
+        Ok(Self {
+            sink,
+            source,
+            processing,
+        })
+    }
+
     fn play(&self, sample_rate: u32, bars: i32) {
         for _ in 0..bars {
             // create buffer
@@ -124,41 +168,7 @@ impl Audact {
         pitcher: impl Pitcher,
         bpm_duration: Duration,
     ) -> Result<(), PlayError> {
-        // create the sink to play from
-        let sink = Sink::try_new(&self.output_stream_handle)?;
-        sink.pause();
-
-        let sample_rate = self.sample_rate as f32;
-        let samples_needed = sample_rate * bpm_duration.as_secs_f32();
-
-        // Create the basic waveform samples
-        let mut source: Vec<f32> = (0u64..samples_needed as u64)
-            .map(move |t| {
-                let t = t as f32;
-                let n_t = t / samples_needed;
-
-                let freq = pitcher.calculate(n_t);
-
-                // Silence if not playing in this step
-                if freq == 0.0 {
-                    return 0.0;
-                }
-
-                let t_f = t * freq / sample_rate;
-
-                (wave.calculate(t_f) * 2.0 - 1.0) * volume.calculate(n_t)
-            })
-            .collect();
-
-        Audact::smooth_source(&mut source);
-
-        // Create the processing chain and channel
-        let channel = Channel {
-            sink,
-            source,
-            processing,
-        };
-
+        let channel = Channel::new(self, wave, volume, processing, pitcher, bpm_duration)?;
         self.channels.push(channel);
 
         Ok(())
