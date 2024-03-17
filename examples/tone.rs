@@ -10,7 +10,7 @@ fn main() {
     let duration = Duration::from_millis(1500);
     let mut audact = Audact::new().unwrap();
 
-    let c = std_note_freq(0);
+    let c = std_note_freq(0.0);
 
     // single test tone
     audact

@@ -16,7 +16,7 @@ fn main() {
     let mut rng = rand::thread_rng();
 
     let seq: Vec<f32> = (0..(seq_len as f32 / 4f32) as usize)
-        .flat_map(|_| iter::repeat(std_note_freq(rng.gen_range(-12..12))).take(4))
+        .flat_map(|_| iter::repeat(std_note_freq(rng.gen_range(-12.0..12.0))).take(4))
         .collect();
 
     let processing = ProcessingBuilder::default()

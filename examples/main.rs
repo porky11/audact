@@ -19,9 +19,9 @@ fn main() {
     let default_processing = Processing::default();
 
     //lead
-    let l_1 = std_note_freq(0);
-    let l_2 = std_note_freq(-2);
-    let l_3 = std_note_freq(-4);
+    let l_1 = std_note_freq(0.0);
+    let l_2 = std_note_freq(-2.0);
+    let l_3 = std_note_freq(-4.0);
     audact
         .channel(
             SawWave,
@@ -35,9 +35,9 @@ fn main() {
         .unwrap();
 
     //pad
-    let p_1 = std_note_freq(-12);
-    let p_2 = std_note_freq(-14);
-    let p_3 = std_note_freq(-16);
+    let p_1 = std_note_freq(-12.0);
+    let p_2 = std_note_freq(-14.0);
+    let p_3 = std_note_freq(-16.0);
     audact
         .channel(
             SquareWave,
@@ -48,8 +48,8 @@ fn main() {
         )
         .unwrap();
 
-    let b_1 = std_note_freq(-24);
-    let b_2 = std_note_freq(-26);
+    let b_1 = std_note_freq(-24.0);
+    let b_2 = std_note_freq(-26.0);
     //bass
     audact
         .channel(

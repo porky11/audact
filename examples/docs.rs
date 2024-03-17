@@ -11,8 +11,8 @@ fn main() {
     let mut audact = Audact::new().unwrap();
 
     let default_processing = Processing::default();
-    let n_1 = std_note_freq(0);
-    let n_2 = std_note_freq(2);
+    let n_1 = std_note_freq(0.0);
+    let n_2 = std_note_freq(2.0);
 
     audact
         .channel(

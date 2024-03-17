@@ -10,7 +10,7 @@ fn main() {
     let duration = Duration::from_millis(1500);
     let mut pattern_1 = Audact::new().unwrap();
 
-    let n_1 = std_note_freq(0);
+    let n_1 = std_note_freq(0.0);
     pattern_1
         .channel(
             SineWave,
@@ -27,7 +27,7 @@ fn main() {
     let duration = Duration::from_millis(1500);
     let mut pattern_2 = Audact::new().unwrap();
 
-    let n_2 = std_note_freq(4);
+    let n_2 = std_note_freq(4.0);
     pattern_2
         .channel(SineWave, 0.7f32, Processing::default(), n_2, duration)
         .unwrap();
