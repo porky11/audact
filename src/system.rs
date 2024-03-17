@@ -1,6 +1,6 @@
 use crate::{pitchers::Pitcher, waves::Wave};
 
-use std::time::Duration;
+use std::{collections::VecDeque, num::NonZeroUsize, time::Duration};
 
 use derive_builder::Builder;
 use rodio::{
@@ -17,6 +17,10 @@ pub struct Audact {
     output_stream_handle: OutputStreamHandle,
     /// Vec of voice channels that audact will play
     channels: Vec<Channel>,
+    /// Keep alive these sinks while playing
+    sinks: VecDeque<Sink>,
+    /// Maximum number of sinks
+    max_sinks: Option<NonZeroUsize>,
     /// Sample rate
     sample_rate: u32,
 }
@@ -124,16 +128,26 @@ impl Default for Processing {
 /// implementation for the audact struct
 impl Audact {
     /// Creates a new instance of audact
-    pub fn new() -> Result<Audact, StreamError> {
+    pub fn new() -> Result<Self, StreamError> {
         let (_output_stream, output_stream_handle) = OutputStream::try_default()?;
         let sample_rate = 44100f32;
 
-        Ok(Audact {
+        Ok(Self {
             _output_stream,
             output_stream_handle,
             channels: Vec::new(),
+            sinks: VecDeque::new(),
+            max_sinks: None,
             sample_rate: sample_rate as u32,
         })
+    }
+
+    /// Creates a new instance of audact with max sinks
+    pub fn with_max_sinks(self, max_sinks: NonZeroUsize) -> Self {
+        Self {
+            max_sinks: Some(max_sinks),
+            ..self
+        }
     }
 
     /// Smooth out the generated source
@@ -191,9 +205,15 @@ impl Audact {
         pitcher: impl Pitcher,
         bpm_duration: Duration,
     ) -> Result<(), PlayError> {
+        if let Some(max_sinks) = self.max_sinks {
+            while self.sinks.len() > max_sinks.into() {
+                self.sinks.pop_front();
+            }
+        }
+
         let channel = Channel::new(self, wave, volume, processing, pitcher, bpm_duration)?;
         channel.play(self.sample_rate, 1);
-        self.channels.push(channel);
+        self.sinks.push_back(channel.sink);
 
         Ok(())
     }
